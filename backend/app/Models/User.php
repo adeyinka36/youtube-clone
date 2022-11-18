@@ -13,6 +13,15 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->uuid =  Str::uuid();
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +31,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar_url',
+        'uuid'
     ];
 
     /**
@@ -33,6 +44,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
 
     /**
      * The attributes that should be cast.
